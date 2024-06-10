@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model medical_history {
+  history_id  Uuid       @id @default(uuid())
+  history_name String    @db.VarChar
+  description String?    @db.VarChar
+  diseases    disease[]  @relation("medical_history_diseases")
+}
+
+model disease {
+  disease_id   Uuid            @id @default(uuid())
+  disease_name String          @db.VarChar
+  history      medical_history? @relation("medical_history_diseases", fields: [history_id], references: [history_id])
+  history_id   Uuid            @unique
+}
+
+model medications {
+  medication_id         Uuid   @id @default(uuid())
+  user_id               Uuid
+  medication_name       String @db.VarChar
+  status                String @db.Enum
+  dosage                String @db.VarChar
+  frequency             String @db.VarChar
+  prescribing_physician String @db.VarChar
+  start_date            DateTime
+  end_date              DateTime?
+}
+
+model measurements {
+  measurement_id    Uuid    @id @default(uuid())
+  name              String  @db.Text
+  owner_id          Uuid
+  measurement_type  String  @db.Enum
+  measurement_value Int
+  measurement_unit  String  @db.Text
+  measured_on       DateTime
+  created_at        DateTime @default(now())
+}
