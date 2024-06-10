@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import {PrismaClient} from '@prisma/client';
 
 interface UserState {
     name: string
@@ -14,11 +13,6 @@ interface UserState {
     Blood_P: number
 }
 
-const prisma = new PrismaClient();
-async function main() {
-    const all = await prisma.user.findMany()
-    return (all)
-  }
 export const useUserStore = create<UserState>()((set)=> ({
     name: "Ali Al Sules",
     age: 20,
