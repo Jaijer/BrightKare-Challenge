@@ -13,17 +13,22 @@ import { useUserStore } from '@/store/userStore';
 
 function PopoverComponent(props: {name: string}) {
     let value;
+    const BMI = useUserStore((state)=> state.BMI);
+    const Weight = useUserStore((state)=> state.Weight);
+    const Height = useUserStore((state)=> state.Height);
+    const Blood_P = useUserStore((state)=> state.Blood_P);
+
     if(props.name === "BMI") {
-        value = useUserStore((state)=> state.BMI);
+      value = BMI;
     }
     else if(props.name === "Weight") {
-        value = useUserStore((state)=> state.Weight);
+      value = Weight;
     }
-    if(props.name === "Height") {
-        value = useUserStore((state)=> state.Height);
+    else if(props.name === "Height") {
+      value = Height;
     }
-    if(props.name === "Blood_P") {
-        value = useUserStore((state)=> state.Blood_P);
+    else if(props.name === "Blood_P") {
+      value = Blood_P;
     }
 
   return (
